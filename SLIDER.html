@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+
+      #line {
+         position: relative;
+         left: 500px;
+         top: 300px;
+         width: 200px;
+         height: 20px;
+         background-color: lightgrey;
+         border-radius: 5px;
+      }
+
+      #slider {
+        position: absolute;
+        top: -5px;
+        width: 10px;
+        height: 30px;
+        background-color: darkorange;
+        border-radius: 5px;
+      }
+
+      #slider:hover {
+        box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+        cursor: pointer;
+      } 
+
+      .darkened {
+        box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+      }
+
+  </style>
+</head>
+
+<body>
+ 
+
+   <div id='line'>
+     <div id='slider'></div>
+   </div>  
+
+ 
+  <script>
+
+
+     let line = document.getElementById('line');
+     let slider = document.getElementById('slider');
+
+    
+    line.onmousedown = function(e) {
+
+      slider.classList.add('darkened');
+      let halfWidth = slider.getBoundingClientRect().width / 2;
+      let shiftX = e.pageX - halfWidth - line.getBoundingClientRect().left;
+      slider.style.left = shiftX + 'px';
+      
+      document.onmousemove = function(e) {
+        let moveShiftX = e.pageX - halfWidth - line.getBoundingClientRect().left;
+        if (moveShiftX < 0) {
+          moveShiftX = 0;
+        } else if (moveShiftX > 190) {
+          moveShiftX = 190; 
+        }
+        slider.style.left = moveShiftX + 'px';
+      }
+
+      document.onmouseup = function() {
+        slider.classList.remove('darkened');
+        document.onmousemove = null;
+        document.onmouseup = null;
+      } 
+
+    }
+
+
+
+
+    
+
+
+
+
+    //  slider.onmousedown = function(e) {
+    //   this.classList.add('darkened');
+    //   let shiftX = e.pageX - this.getBoundingClientRect().left;
+    //   document.onmousemove = function(e) {
+    //     let newLeft = e.pageX - shiftX - line.getBoundingClientRect().left;
+    //     if (newLeft < 0) {
+    //       newLeft = 0;
+    //     } else if (newLeft > 190) {
+    //       newLeft = 190; 
+    //     }
+    //     slider.style.left = newLeft + 'px';
+    //   }
+    //   document.onmouseup = function() {
+    //     slider.classList.remove('darkened');
+    //     document.onmousemove = null;
+    //     document.onmouseup = null;
+    //   } 
+    // }
+   
+
+  </script>
+
+</body>
+
+</html>
