@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  
+  .capsWarn {
+    color: red;
+    visibility: hidden;
+   }
+    
+  .vis {
+    visibility: visible;
+  }  
+
+  </style>
+</head>
+
+<body>
+
+  Введите текст(например, пароль) с нажатым CapsLock:
+  <input type="text" id='field'>
+  <div class='capsWarn'>Внимание: нажат CapsLock!</div>
+
+  <script>
+
+
+    let capsWarn = document.querySelector('.capsWarn');
+    let field = document.getElementById('field');
+
+    field.onfocus = function() {
+      let capsOn;
+      let letter;
+      let toSmall;
+      
+      this.onkeydown = function(e) {
+        if (e.keyCode == 20 && !capsOn && capsOn !== undefined) {
+          capsOn = true;
+          toCapsOn();
+        } else if (e.keyCode == 20 && capsOn) {
+          capsOn = false;
+          toCapsOf();
+        } 
+
+        letter = e.key;
+        toSmall = letter.toLowerCase();
+
+        if (letter !== toSmall && e.keyCode !== 20) { 
+          capsOn = true;
+          toCapsOn();
+        } else if (letter == toSmall && e.keyCode !== 20) {
+          capsOn = false;
+          toCapsOf();
+        }
+      }
+    }
+    
+    function toCapsOn() {
+      capsWarn.classList.add('vis');
+    }
+
+    function toCapsOf() {
+      capsWarn.classList.remove('vis');
+    }
+
+    field.onblur = function() {
+      capsWarn.classList.remove('vis');
+    }
+
+
+  </script>
+
+</body>
+
+</html>

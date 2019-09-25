@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  
+  td {
+    border: 2px solid darkorange;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+  }
+  
+   
+  #table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    position: relative;
+    left: 650px;
+    top: 250px;
+    width: 600px;
+    height: 300px;
+  }
+
+  
+  textarea {
+    position: absolute;
+    border: none;
+    resize: none;
+    outline: none;
+  }
+
+  
+  .box {
+    position: absolute;
+    width: 91px;
+  }
+
+
+  </style>
+</head>
+
+<body>
+
+
+  <table id="table">
+    <tr>
+      <td><strong>Northwest</strong>
+        <br>Metal
+        <br>Silver
+        <br>Elders
+      </td>
+      <td><strong>North</strong>
+        <br>Water
+        <br>Blue
+        <br>Change
+      </td>
+      <td><strong>Northeast</strong>
+        <br>Earth
+        <br>Yellow
+        <br>Direction
+      </td>
+    </tr>
+    <tr>
+      <td><strong>West</strong>
+        <br>Metal
+        <br>Gold
+        <br>Youth
+      </td>
+      <td><strong>Center</strong>
+        <br>All
+        <br>Purple
+        <br>Harmony
+      </td>
+      <td><strong>East</strong>
+        <br>Wood
+        <br>Blue
+        <br>Future
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Southwest</strong>
+        <br>Earth
+        <br>Brown
+        <br>Tranquility
+      </td>
+      <td><strong>South</strong>
+        <br>Fire
+        <br>Orange
+        <br>Fame
+      </td>
+      <td><strong>Southeast</strong>
+        <br>Wood
+        <br>Green
+        <br>Romance
+      </td>
+    </tr>
+
+  </table>
+
+
+
+  
+<script>
+
+let tds = document.querySelectorAll('td');
+
+for (let i = 0; i < tds.length; i++) {
+  let area = document.createElement('textarea');
+  let tdWidth = getComputedStyle(tds[i]).width;
+  let tdHeight = getComputedStyle(tds[i]).height;
+  let left = tds[i].getBoundingClientRect().left;
+  let top = tds[i].getBoundingClientRect().top;
+  area.style.width = parseInt(tdWidth) + 20 + 'px';
+  area.style.height = parseInt(tdHeight) + 20 + 'px';
+  area.style.left = left + 10 + 'px';
+  area.style.top = top + 10 + 'px';
+  area.value = tds[i].innerHTML;
+  area.hidden = true;
+  document.body.append(area);
+}
+
+
+for (let i = 0; i < tds.length; i++) {
+  let box = document.createElement('div');
+  box.classList.add('box');
+  let ok = document.createElement('button');
+  let cancel = document.createElement('button');
+  ok.classList.add('ok');
+  cancel.classList.add('cancel');
+  ok.innerHTML = 'Ok';
+  cancel.innerHTML = 'Cancel';
+  box.append(ok, cancel);
+  box.hidden = true;
+  let left = tds[i].getBoundingClientRect().left;
+  let top = tds[i].getBoundingClientRect().top;
+  box.style.left = left + 1 + 'px';
+  box.style.top = top + 112 + 'px';
+  document.body.append(box);
+}
+
+
+let notes = document.querySelectorAll('textarea');
+let boxes = document.querySelectorAll('.box');
+let td = null;
+let index;
+
+document.onclick = function(e) {
+  if (td == null && e.target.tagName == 'TD') {
+    td = e.target; 
+    opener(td);
+  } else if (td == null && e.target.tagName == 'STRONG') {
+      td = e.target.parentElement; 
+      opener(td);
+    } else if (e.target.className == 'ok') {
+        td.innerHTML = notes[index].value;
+        notes[index].hidden = true;
+        boxes[index].hidden = true;
+        td = null;
+      } else if (e.target.className == 'cancel') {
+          notes[index].value = td.innerHTML;
+          notes[index].hidden = true;
+          boxes[index].hidden = true;
+          td = null;
+      }
+
+  function opener(cell) {
+    index = [].indexOf.call(tds, cell);
+    boxes[index].hidden = false;
+    notes[index].hidden = false;
+    notes[index].focus();
+  }
+
+}
+
+    
+
+</script>
+
+
+</body>
+
+
+</html>
